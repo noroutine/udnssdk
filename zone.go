@@ -16,7 +16,7 @@ type ZoneProperties struct {
     Status                  string      `json:"status"`
     Owner                   string      `json:"owner"`
     ResourceRecordCount     int         `json:"resourceRecordCount"`
-    LastModificationTime    string      `json:"lastModificationTime"`
+    LastModificationTime    string      `json:"lastModifiedDateTime"`
 }
 
 type ZoneRegistrarInfo struct {
