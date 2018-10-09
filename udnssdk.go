@@ -14,6 +14,7 @@ import (
 	"net/url"
 	"strings"
 	"time"
+	"regexp"
 
 	"golang.org/x/oauth2"
 
@@ -134,7 +135,10 @@ func (c *Client) NewRequest(method, pathquery string, payload interface{}) (*htt
 	url := *c.BaseURL
 
 	pq := strings.SplitN(pathquery, "?", 2)
-	url.Path = url.Path + fmt.Sprintf("%s/%s", apiVersion, pq[0])
+	// remove extra slashes too
+	deslashRe := regexp.MustCompile(`/+`)
+	url.Path = deslashRe.ReplaceAllString(url.Path + fmt.Sprintf("%s/%s", apiVersion, pq[0]), `/`)
+
 	if len(pq) == 2 {
 		url.RawQuery = pq[1]
 	}
