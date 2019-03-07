@@ -7,7 +7,6 @@ type ZonesService struct {
     client *Client
 }
 
-
 type ZoneProperties struct {
     Name                    string      `json:"name"`
     AccountName             string      `json:"accountName"`

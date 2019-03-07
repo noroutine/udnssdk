@@ -2,7 +2,6 @@ package udnssdk
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -76,7 +75,7 @@ func (s *EventsService) Select(r RRSetKey, query string) ([]EventInfoDTO, error)
 			return pis, err
 		}
 
-		log.Printf("ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("ResultInfo: %+v\n", ri)
 		for _, pi := range reqEvents {
 			pis = append(pis, pi)
 		}

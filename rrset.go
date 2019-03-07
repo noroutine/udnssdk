@@ -2,7 +2,6 @@ package udnssdk
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 
@@ -355,7 +354,7 @@ func (s *RRSetsService) Select(k RRSetKey) ([]RRSet, error) {
 			return rrsets, err
 		}
 
-		log.Printf("ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("[DEBUG] ResultInfo: %+v\n", ri)
 		for _, rrset := range reqRrsets {
 			rrsets = append(rrsets, rrset)
 		}

@@ -2,7 +2,6 @@ package udnssdk
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -157,7 +156,7 @@ func (s *GeoDirectionalPoolsService) Select(k GeoDirectionalPoolKey, query strin
 			return dtos, err
 		}
 
-		log.Printf("[DEBUG] ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("[DEBUG] ResultInfo: %+v\n", ri)
 		for _, d := range reqDtos {
 			dtos = append(dtos, d)
 		}
@@ -258,7 +257,7 @@ func (s *IPDirectionalPoolsService) Select(k IPDirectionalPoolKey, query string)
 			return gs, err
 		}
 
-		log.Printf("ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("ResultInfo: %+v\n", ri)
 		for _, g := range reqIPGroups {
 			gs = append(gs, g)
 		}

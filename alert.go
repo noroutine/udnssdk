@@ -1,7 +1,6 @@
 package udnssdk
 
 import (
-	"log"
 	"net/http"
 	"time"
 )
@@ -64,7 +63,7 @@ func (s *AlertsService) Select(k RRSetKey) ([]ProbeAlertDataDTO, error) {
 			return as, err
 		}
 
-		log.Printf("ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("ResultInfo: %+v\n", ri)
 		for _, a := range reqAlerts {
 			as = append(as, a)
 		}

@@ -1,0 +1,33 @@
+hash: 51e06f12325dee28737ca7ad6a689a8bc92b0b70f2a87e5a0e1de6b383f13527
+updated: 2019-02-27T17:32:08.962885+02:00
+imports:
+- name: github.com/fatih/structs
+  version: 4966fc68f5b7593aafa6cbbba2d65ec6e1416047
+- name: github.com/golang/protobuf
+  version: aa810b61a9c79d51363740d207bb46cf8e620ed5
+  subpackages:
+  - proto
+- name: github.com/hashicorp/logutils
+  version: a335183dfd075f638afcc820c90591ca3c97eba6
+- name: github.com/mitchellh/mapstructure
+  version: 3536a929edddb9a5b34bd6861dc4a9647cb459fe
+- name: golang.org/x/net
+  version: 45ffb0cd1ba084b73e26dee67e667e1be5acce83
+  subpackages:
+  - context
+  - context/ctxhttp
+- name: golang.org/x/oauth2
+  version: d668ce993890a79bda886613ee587a69dd5da7a6
+  subpackages:
+  - internal
+- name: google.golang.org/appengine
+  version: e9657d882bb81064595ca3b56cbe2546bbabf7b1
+  subpackages:
+  - internal
+  - internal/base
+  - internal/datastore
+  - internal/log
+  - internal/remote_api
+  - internal/urlfetch
+  - urlfetch
+testImports: []

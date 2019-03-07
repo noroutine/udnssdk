@@ -18,7 +18,7 @@ import (
 
 	"golang.org/x/oauth2"
 
-	oauthPassword "github.com/terra-farm/udnssdk/password"
+	oauthPassword "github.com/noroutine/udnssdk/password"
 )
 
 const (
@@ -50,6 +50,8 @@ type ResultInfo struct {
 
 // Client wraps our general-purpose Service Client
 type Client struct {
+	logger *log.Logger
+
 	// This is our client structure.
 	HTTPClient *http.Client
 	Config     *oauthPassword.Config
@@ -117,6 +119,7 @@ func newStubClient(username, password, baseURL, clientID, clientSecret string) (
 		BaseURL:    u,
 		UserAgent:  userAgent,
 	}
+	c.logger = log.New(ioutil.Discard, "", 0)
 	c.Accounts = &AccountsService{client: c}
 	c.Alerts = &AlertsService{client: c}
 	c.DirectionalPools = &DirectionalPoolsService{client: c}
@@ -126,6 +129,14 @@ func newStubClient(username, password, baseURL, clientID, clientSecret string) (
 	c.RRSets = &RRSetsService{client: c}
 	c.Tasks = &TasksService{client: c}
 	return c, nil
+}
+
+func (c *Client) SetLogger(logger *log.Logger) {
+	if logger == nil {
+		c.logger = log.New(ioutil.Discard, "", 0)
+	} else {
+		c.logger = logger
+	}
 }
 
 // NewRequest creates an API request.
@@ -190,9 +201,9 @@ func (c *Client) Do(method, path string, payload, v interface{}) (*http.Response
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("[DEBUG] HTTP Request: %+v\n", req)
+	c.logger.Printf("[DEBUG] HTTP Request: %+v\n", req)
 	r, err := hc.Do(req)
-	log.Printf("[DEBUG] HTTP Response: %+v\n", r)
+	c.logger.Printf("[DEBUG] HTTP Response: %+v\n", r)
 	if err != nil {
 		return nil, err
 	}
@@ -201,7 +212,7 @@ func (c *Client) Do(method, path string, payload, v interface{}) (*http.Response
 	if r.StatusCode == 202 {
 		// This is a deferred task.
 		tid := TaskID(r.Header.Get("X-Task-Id"))
-		log.Printf("[DEBUG] Received Async Task %+v..  will retry...\n", tid)
+		c.logger.Printf("[DEBUG] Received Async Task %+v..  will retry...\n", tid)
 		// TODO: Sane Configuration for timeouts / retries
 		timeout := 5
 		waittime := 5 * time.Second
@@ -212,7 +223,7 @@ func (c *Client) Do(method, path string, payload, v interface{}) (*http.Response
 			if err != nil {
 				return nil, err
 			}
-			log.Printf("[DEBUG] Task ID: %+v Retry: %d Status Code: %s\n", tid, i, t.TaskStatusCode)
+			c.logger.Printf("[DEBUG] Task ID: %+v Retry: %d Status Code: %s\n", tid, i, t.TaskStatusCode)
 			switch t.TaskStatusCode {
 			case "COMPLETE":
 				// Yay

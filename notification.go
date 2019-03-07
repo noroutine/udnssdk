@@ -2,7 +2,6 @@ package udnssdk
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -84,7 +83,7 @@ func (s *NotificationsService) Select(k RRSetKey, query string) ([]NotificationD
 			return pis, res, err
 		}
 
-		log.Printf("[DEBUG] ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("[DEBUG] ResultInfo: %+v\n", ri)
 		for _, pi := range reqNotifications {
 			pis = append(pis, pi)
 		}
@@ -103,7 +102,7 @@ func (s *NotificationsService) SelectWithOffset(k RRSetKey, query string, offset
 	uri := k.NotificationsQueryURI(query, offset)
 	res, err := s.client.get(uri, &tld)
 
-	log.Printf("DEBUG - ResultInfo: %+v\n", tld.Resultinfo)
+	s.client.logger.Printf("[DEBUG] ResultInfo: %+v\n", tld.Resultinfo)
 	pis := []NotificationDTO{}
 	for _, pi := range tld.Notifications {
 		pis = append(pis, pi)

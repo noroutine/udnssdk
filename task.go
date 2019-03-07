@@ -2,7 +2,6 @@ package udnssdk
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"time"
 )
@@ -76,7 +75,7 @@ func (s *TasksService) Select(query string) ([]Task, error) {
 			return dtos, err
 		}
 
-		log.Printf("[DEBUG] ResultInfo: %+v\n", ri)
+		s.client.logger.Printf("[DEBUG] ResultInfo: %+v\n", ri)
 		for _, d := range reqDtos {
 			dtos = append(dtos, d)
 		}
